@@ -43,16 +43,22 @@ public:
 	bool operator==(const Vector2& v);
 	bool operator!=(const Vector2& v);
 
-	//special math operations
+	//vector operations
 	T dot(const Vector2& v);
 	T perpDot(const Vector2& v);
 	T magnitude();
 	T magnitudeSquared();
 	Vector2 normalized();
+	T angle(const Vector2& v);
+	static bool isBasis(Vector2& a, Vector2& b);
+
+	//point operations
+	T distance(const Vector2& p);
+	T distanceSquared(const Vector2& p);
 
 	//utilities
 	string toString();
-	static bool isBasis(Vector2& a, Vector2& b);
+
 
 
 
@@ -151,7 +157,7 @@ std::ostream& operator<< (std::ostream& s, const Vector2<T>& v) {
 	return s<<"("<<v.getX()<<","<<v.getY()<<")";
 }
 
-/**********special math operations**********/
+/**********vector operations**********/
 template<typename T>
 T Vector2<T>::dot(const Vector2& v){
 	return x*v.x + y*v.y;
@@ -186,6 +192,31 @@ Vector2<T> Vector2<T>::normalized(){
 	return *this;
 }
 
+template<typename T>
+T Vector2<T>::angle(const Vector2& v){
+	return arcsin(this->normalized().perpDot(v.normalized()));
+}
+
+template<typename T>
+bool Vector2<T>::isBasis(Vector2& a, Vector2& b){
+	Vector2<T> zero(0,0);
+
+	return a.perpDot(b) != 0;
+}
+
+/**********point operations**********/
+template<typename T>
+T Vector2<T>::distance(const Vector2<T>& p){
+	return sqrt(this->distanceSquared(p));
+}
+
+template<typename T>
+T Vector2<T>::distanceSquared(const Vector2<T>& p){
+	T xDist = x-p.x;
+	T yDist = y-p.y;
+	return xDist*xDist + yDist*yDist;
+}
+
 /**********utilities**********/
 template<typename T>
 string Vector2<T>::toString()
@@ -195,11 +226,5 @@ string Vector2<T>::toString()
     return oss.str();
 }
 
-template<typename T>
-bool Vector2<T>::isBasis(Vector2& a, Vector2& b){
-	Vector2<T> zero(0,0);
-
-	return a.perpDot(b) != 0;
-}
 
 #endif /* VECTOR2_H_ */

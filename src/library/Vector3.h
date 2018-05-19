@@ -44,22 +44,27 @@ public:
 	bool operator==(const Vector3& v);
 	bool operator!=(const Vector3& v);
 
-	//special math operations
+	//vector operations
 	T dot(const Vector3& v);
 	Vector3 cross(const Vector3& v);
 	T magnitude();
 	T magnitudeSquared();
 	Vector3 normalized();
+	float angle(const Vector3& v);
 	Vector3 projection(Vector3& w);
 	Vector3 projectionOntoNormalized(Vector3& wNormalized);
 	Vector3 perpendicular(Vector3& w);
 	Vector3 perpendicularOntoNormalized(Vector3& wNormalized);
 	static void gramSchmidtOrthogonalization(Vector3& a, Vector3& b, Vector3& c);
 	static bool isRightHanded(Vector3& a, Vector3& b, Vector3& c);
+	static bool isBasis(Vector3& a, Vector3& b, Vector3& c);
+
+	//point operations
+	T distance(const Vector3& p);
+	T distanceSquared(const Vector3& p);
 
 	//utilities
 	string toString();
-	static bool isBasis(Vector3& a, Vector3& b, Vector3& c);
 
 
 private:
@@ -171,7 +176,7 @@ std::ostream& operator<< (std::ostream& s, const Vector3<T>& v) {
 	return s<<"("<<v.getX()<<","<<v.getY()<<","<<v.getZ()<<")";
 }
 
-/**********special math operations**********/
+/**********vector operations**********/
 template<typename T>
 T Vector3<T>::dot(const Vector3& v){
 	return x*v.x + y*v.y + z*v.z;
@@ -208,6 +213,15 @@ Vector3<T> Vector3<T>::normalized(){
 }
 
 template<typename T>
+float Vector3<T>::angle(const Vector3<T>& v){
+	Vector3<T> thisNormalized = this->normalized();
+	Vector3<T> vNormalized = v->normalized();
+	T crossMagnitude = thisNormalized.cross(vNormalized).magnitude();
+	T dot = thisNormalized->dot(vNormalized);
+	return arctan(crossMagnitude/dot);
+}
+
+template<typename T>
 Vector3<T> Vector3<T>::projection(Vector3& w){
 	return this->dot(w)/w.magnitudeSquared()*w;
 }
@@ -240,6 +254,28 @@ bool Vector3<T>::isRightHanded(Vector3& a, Vector3& b, Vector3& c){
 	return a.dot(b.cross(c)) > 0;
 }
 
+template<typename T>
+bool Vector3<T>::isBasis(Vector3& a, Vector3& b, Vector3& c){
+	Vector3<T> zero(0,0,0);
+
+	return a.cross(b) != zero && a.cross(c) != zero && b.cross(c) != zero;
+}
+
+/**********point operations**********/
+template<typename T>
+T Vector3<T>::distance(const Vector3<T>& p){
+	return sqrt(this->distanceSquared(p));
+}
+
+template<typename T>
+T Vector3<T>::distanceSquared(const Vector3<T>& p){
+	T xDist = x-p.x;
+	T yDist = y-p.y;
+	T zDist = z-p.z;
+	return xDist*xDist + yDist*yDist + zDist*zDist;
+}
+
+
 /**********utilities**********/
 template<typename T>
 string Vector3<T>::toString()
@@ -249,11 +285,5 @@ string Vector3<T>::toString()
     return oss.str();
 }
 
-template<typename T>
-bool Vector3<T>::isBasis(Vector3& a, Vector3& b, Vector3& c){
-	Vector3<T> zero(0,0,0);
-
-	return a.cross(b) != zero && a.cross(c) != zero && b.cross(c) != zero;
-}
 
 #endif /* VECTOR3_H_ */
