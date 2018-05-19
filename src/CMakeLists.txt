@@ -7,10 +7,6 @@ enable_testing()
 include_directories ("${PROJECT_SOURCE_DIR}/library")
 add_subdirectory (library)
 
-include_directories ("${PROJECT_SOURCE_DIR}/exercises")
-#set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
-add_subdirectory (exercises) 
-
 include_directories ("${PROJECT_SOURCE_DIR}/rendering")
 #set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 add_subdirectory (rendering)
