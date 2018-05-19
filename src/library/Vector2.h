@@ -40,8 +40,8 @@ public:
 	Vector2 operator-(const Vector2& v);
 	Vector2 operator*(const float& s);
 	Vector2 operator/(const float& s);
-	bool operator==(const Vector2& v);
-	bool operator!=(const Vector2& v);
+	bool operator==(const Vector2& v) const;
+	bool operator!=(const Vector2& v) const;
 
 	//vector operations
 	T dot(const Vector2& v);
@@ -143,12 +143,12 @@ Vector2<T> Vector2<T>::operator/(const float& s) {
 }
 
 template<typename T>
-bool Vector2<T>::operator==(const Vector2& v) {
+bool Vector2<T>::operator==(const Vector2& v) const {
 	return (x==v.x) && (y==v.y);
 }
 
 template<typename T>
-bool Vector2<T>::operator!=(const Vector2& v) {
+bool Vector2<T>::operator!=(const Vector2& v) const {
 	return (x!=v.x) || (y!=v.y);
 }
 
