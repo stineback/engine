@@ -36,32 +36,33 @@ public:
 	void setZ(T z);
 
 	//operator overloading
-	Vector3& operator=(const Vector3& v);
-	Vector3 operator+(const Vector3& v);
-	Vector3 operator-(const Vector3& v);
-	Vector3 operator*(const float& s);
-	Vector3 operator/(const float& s);
-	bool operator==(const Vector3& v);
-	bool operator!=(const Vector3& v);
+	Vector3& operator=(const Vector3& v) const;
+	Vector3 operator+(const Vector3& v) const;
+	Vector3 operator-(const Vector3& v) const;
+	Vector3 operator-() const;	
+	Vector3 operator*(const float& s) const;
+	Vector3 operator/(const float& s) const;
+	bool operator==(const Vector3& v) const;
+	bool operator!=(const Vector3& v) const;
 
 	//vector operations
-	T dot(const Vector3& v);
-	Vector3 cross(const Vector3& v);
-	T magnitude();
-	T magnitudeSquared();
-	Vector3 normalized();
-	float angle(const Vector3& v);
-	Vector3 projection(Vector3& w);
-	Vector3 projectionOntoNormalized(Vector3& wNormalized);
-	Vector3 perpendicular(Vector3& w);
-	Vector3 perpendicularOntoNormalized(Vector3& wNormalized);
+	T dot(const Vector3& v) const;
+	Vector3 cross(const Vector3& v) const;
+	T magnitude() const;
+	T magnitudeSquared() const;
+	Vector3 normalized() const;
+	float angle(const Vector3& v) const;
+	Vector3 projection(Vector3& w) const;
+	Vector3 projectionOntoNormalized(Vector3& wNormalized) const;
+	Vector3 perpendicular(Vector3& w) const;
+	Vector3 perpendicularOntoNormalized(Vector3& wNormalized) const;
 	static void gramSchmidtOrthogonalization(Vector3& a, Vector3& b, Vector3& c);
 	static bool isRightHanded(Vector3& a, Vector3& b, Vector3& c);
 	static bool isBasis(Vector3& a, Vector3& b, Vector3& c);
 
 	//point operations
-	T distance(const Vector3& p);
-	T distanceSquared(const Vector3& p);
+	T distance(const Vector3& p) const;
+	T distanceSquared(const Vector3& p) const;
 
 	//utilities
 	string toString();
@@ -125,7 +126,7 @@ inline void Vector3<T>::setZ(T z) {
 
 /**********operator overloading**********/
 template<typename T>
-Vector3<T>& Vector3<T>::operator=(const Vector3& v){
+Vector3<T>& Vector3<T>::operator=(const Vector3& v) const{
 
 	//if same object
 	if(this == &v) return *this;
@@ -137,37 +138,43 @@ Vector3<T>& Vector3<T>::operator=(const Vector3& v){
 }
 
 template<typename T>
-Vector3<T> Vector3<T>::operator+(const Vector3& v) {
+Vector3<T> Vector3<T>::operator+(const Vector3& v) const{
 	return Vector3(x+v.x,y+v.y, z+v.z);
 }
 
 template<typename T>
-Vector3<T> Vector3<T>::operator-(const Vector3& v) {
+Vector3<T> Vector3<T>::operator-(const Vector3& v) const{
 	return Vector3(x-v.x,y-v.y,z-v.z);
 }
 
 template<typename T>
-Vector3<T> Vector3<T>::operator*(const float& s) {
+Vector3<T> Vector3<T>::operator-() const{
+	return Vector3(-x,-y,-z);
+}
+
+
+template<typename T>
+Vector3<T> Vector3<T>::operator*(const float& s) const{
 	return Vector3<T>(x*s,y*s,z*s);
 }
 
 template<typename T>
-Vector3<T> operator*(const float& s, const Vector3<T>& v) {
+Vector3<T> operator*(const float& s, const Vector3<T>& v){
 	return Vector3<T>(s*v.getX(),s*v.getY(),s*v.getZ());
 }
 
 template<typename T>
-Vector3<T> Vector3<T>::operator/(const float& s) {
+Vector3<T> Vector3<T>::operator/(const float& s) const{
 	return Vector3(x/s,y/s,z/s);
 }
 
 template<typename T>
-bool Vector3<T>::operator==(const Vector3& v) {
+bool Vector3<T>::operator==(const Vector3& v) const{
 	return (x==v.x) && (y==v.y) && (z==v.z);
 }
 
 template<typename T>
-bool Vector3<T>::operator!=(const Vector3& v) {
+bool Vector3<T>::operator!=(const Vector3& v) const{
 	return (x!=v.x) || (y!=v.y) || (z!=v.z);
 }
 
@@ -178,42 +185,38 @@ std::ostream& operator<< (std::ostream& s, const Vector3<T>& v) {
 
 /**********vector operations**********/
 template<typename T>
-T Vector3<T>::dot(const Vector3& v){
+T Vector3<T>::dot(const Vector3& v) const{
 	return x*v.x + y*v.y + z*v.z;
 }
 
 template<typename T>
-Vector3<T> Vector3<T>::cross(const Vector3& v){
+Vector3<T> Vector3<T>::cross(const Vector3& v) const{
 	return Vector3<T>(y*v.z-v.y*z, z*v.x-v.z*x, x*v.y-v.x*y);
 }
 
 template<typename T>
-T Vector3<T>::magnitude(){
+T Vector3<T>::magnitude() const{
 	return sqrt(this->magnitudeSquared());
 }
 
 template<typename T>
-T Vector3<T>::magnitudeSquared(){
+T Vector3<T>::magnitudeSquared() const{
 	return x*x + y*y + z*z;
 }
 
 template<typename T>
-Vector3<T> Vector3<T>::normalized(){
+Vector3<T> Vector3<T>::normalized() const{
 	float magnitude = this->magnitude();
-	if(magnitude == 0){
-		x = y = z = 0;
-	}
-	else{
-		x /= magnitude;
-		y /= magnitude;
-		z /= magnitude;
+	Vector3 result;
+	if(magnitude != 0){
+		result.set(x/magnitude, y/magnitude, z/magnitude);
 	}
 
-	return *this;
+	return result;
 }
 
 template<typename T>
-float Vector3<T>::angle(const Vector3<T>& v){
+float Vector3<T>::angle(const Vector3<T>& v) const{
 	Vector3<T> thisNormalized = this->normalized();
 	Vector3<T> vNormalized = v->normalized();
 	T crossMagnitude = thisNormalized.cross(vNormalized).magnitude();
@@ -222,23 +225,23 @@ float Vector3<T>::angle(const Vector3<T>& v){
 }
 
 template<typename T>
-Vector3<T> Vector3<T>::projection(Vector3& w){
+Vector3<T> Vector3<T>::projection(Vector3& w) const{
 	return this->dot(w)/w.magnitudeSquared()*w;
 }
 
 template<typename T>
-Vector3<T> Vector3<T>::projectionOntoNormalized(Vector3& wNormalized){
+Vector3<T> Vector3<T>::projectionOntoNormalized(Vector3& wNormalized) const{
 	return this->dot(wNormalized)*wNormalized;
 }
 
 
 template<typename T>
-Vector3<T> Vector3<T>::perpendicular(Vector3& w){
+Vector3<T> Vector3<T>::perpendicular(Vector3& w) const{
 	return this->operator -(this->projection(w));
 }
 
 template<typename T>
-Vector3<T> Vector3<T>::perpendicularOntoNormalized(Vector3& wNormalized){
+Vector3<T> Vector3<T>::perpendicularOntoNormalized(Vector3& wNormalized) const{
 	return this->operator-(this->projectionOntoNormalized(wNormalized));
 }
 
@@ -263,12 +266,12 @@ bool Vector3<T>::isBasis(Vector3& a, Vector3& b, Vector3& c){
 
 /**********point operations**********/
 template<typename T>
-T Vector3<T>::distance(const Vector3<T>& p){
+T Vector3<T>::distance(const Vector3<T>& p) const{
 	return sqrt(this->distanceSquared(p));
 }
 
 template<typename T>
-T Vector3<T>::distanceSquared(const Vector3<T>& p){
+T Vector3<T>::distanceSquared(const Vector3<T>& p) const{
 	T xDist = x-p.x;
 	T yDist = y-p.y;
 	T zDist = z-p.z;

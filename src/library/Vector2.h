@@ -20,7 +20,7 @@ template<typename T>
 class Vector2 {
 public:
 	//constructors/destructor
-	Vector2(){};
+	Vector2() : x(0), y(0){};
 	Vector2(T x, T y) :x(x), y(y) {};
 	Vector2(const Vector2& v) : x(v.x), y(v.y){};
 	virtual ~Vector2(){};
@@ -35,33 +35,30 @@ public:
 	void setY(T y);
 
 	//operator overloading
-	Vector2& operator=(const Vector2& v);
-	Vector2 operator+(const Vector2& v);
-	Vector2 operator-(const Vector2& v);
-	Vector2 operator*(const float& s);
-	Vector2 operator/(const float& s);
+	Vector2& operator=(const Vector2& v) const;
+	Vector2 operator+(const Vector2& v) const;
+	Vector2 operator-(const Vector2& v) const;
+	Vector2 operator-() const;
+	Vector2 operator*(const float& s) const;
+	Vector2 operator/(const float& s) const;
 	bool operator==(const Vector2& v) const;
 	bool operator!=(const Vector2& v) const;
 
 	//vector operations
-	T dot(const Vector2& v);
-	T perpDot(const Vector2& v);
-	T magnitude();
-	T magnitudeSquared();
-	Vector2 normalized();
-	T angle(const Vector2& v);
-	static bool isBasis(Vector2& a, Vector2& b);
+	T dot(const Vector2& v) const;
+	T perpDot(const Vector2& v) const;
+	T magnitude() const;
+	T magnitudeSquared() const;
+	Vector2 normalized() const;
+	T angle(const Vector2& v) const;
+	static bool isBasis(const Vector2& a, const Vector2& b);
 
 	//point operations
-	T distance(const Vector2& p);
-	T distanceSquared(const Vector2& p);
+	T distance(const Vector2& p)  const;
+	T distanceSquared(const Vector2& p) const;
 
 	//utilities
-	string toString();
-
-
-
-
+	string toString() const;
 
 private:
 	T x;
@@ -107,7 +104,7 @@ inline void Vector2<T>::setY(T y) {
 
 /**********operator overloading**********/
 template<typename T>
-Vector2<T>& Vector2<T>::operator=(const Vector2& v){
+Vector2<T>& Vector2<T>::operator=(const Vector2& v) const{
 
 	//if same object
 	if(this == &v) return *this;
@@ -118,17 +115,22 @@ Vector2<T>& Vector2<T>::operator=(const Vector2& v){
 }
 
 template<typename T>
-Vector2<T> Vector2<T>::operator+(const Vector2& v) {
+Vector2<T> Vector2<T>::operator+(const Vector2& v) const{
 	return Vector2(x+v.x,y+v.y);
 }
 
 template<typename T>
-Vector2<T> Vector2<T>::operator-(const Vector2& v) {
+Vector2<T> Vector2<T>::operator-(const Vector2& v) const{
 	return Vector2(x-v.x,y-v.y);
 }
 
 template<typename T>
-Vector2<T> Vector2<T>::operator*(const float& s) {
+Vector2<T> Vector2<T>::operator-() const{
+	return Vector2(-x,-y);
+}
+
+template<typename T>
+Vector2<T> Vector2<T>::operator*(const float& s) const{
 	return Vector2<T>(x*s,y*s);
 }
 
@@ -138,7 +140,7 @@ Vector2<T> operator*(const float& s, const Vector2<T>& v) {
 }
 
 template<typename T>
-Vector2<T> Vector2<T>::operator/(const float& s) {
+Vector2<T> Vector2<T>::operator/(const float& s) const{
 	return Vector2(x/s,y/s);
 }
 
@@ -159,46 +161,43 @@ std::ostream& operator<< (std::ostream& s, const Vector2<T>& v) {
 
 /**********vector operations**********/
 template<typename T>
-T Vector2<T>::dot(const Vector2& v){
+T Vector2<T>::dot(const Vector2& v) const{
 	return x*v.x + y*v.y;
 }
 
 template<typename T>
-T Vector2<T>::perpDot(const Vector2& v){
+T Vector2<T>::perpDot(const Vector2& v) const{
 	return x*v.y - y*v.x;
 }
 
 template<typename T>
-T Vector2<T>::magnitude(){
+T Vector2<T>::magnitude() const{
 	return sqrt(this->magnitudeSquared());
 }
 
 template<typename T>
-T Vector2<T>::magnitudeSquared(){
+T Vector2<T>::magnitudeSquared() const{
 	return x*x + y*y;
 }
 
 template<typename T>
-Vector2<T> Vector2<T>::normalized(){
+Vector2<T> Vector2<T>::normalized() const{
 	float magnitude = this->magnitude();
-	if(magnitude == 0){
-		x = y = 0;
-	}
-	else{
-		x /= magnitude;
-		y /= magnitude;
+	Vector2 result;
+	if(magnitude != 0){
+		result.set(x/magnitude, y/magnitude);
 	}
 
-	return *this;
+	return result;
 }
 
 template<typename T>
-T Vector2<T>::angle(const Vector2& v){
-	return arcsin(this->normalized().perpDot(v.normalized()));
+T Vector2<T>::angle(const Vector2& v) const{
+	return asin(this->normalized().perpDot(v.normalized()));
 }
 
 template<typename T>
-bool Vector2<T>::isBasis(Vector2& a, Vector2& b){
+bool Vector2<T>::isBasis(const Vector2& a, const Vector2& b) {
 	Vector2<T> zero(0,0);
 
 	return a.perpDot(b) != 0;
@@ -206,12 +205,12 @@ bool Vector2<T>::isBasis(Vector2& a, Vector2& b){
 
 /**********point operations**********/
 template<typename T>
-T Vector2<T>::distance(const Vector2<T>& p){
+T Vector2<T>::distance(const Vector2<T>& p) const{
 	return sqrt(this->distanceSquared(p));
 }
 
 template<typename T>
-T Vector2<T>::distanceSquared(const Vector2<T>& p){
+T Vector2<T>::distanceSquared(const Vector2<T>& p) const{
 	T xDist = x-p.x;
 	T yDist = y-p.y;
 	return xDist*xDist + yDist*yDist;
@@ -219,8 +218,7 @@ T Vector2<T>::distanceSquared(const Vector2<T>& p){
 
 /**********utilities**********/
 template<typename T>
-string Vector2<T>::toString()
-{
+string Vector2<T>::toString() const{
 	ostringstream oss;
 	oss << *this;
     return oss.str();
