@@ -34,3 +34,8 @@ endif()
 add_executable(Vector2Test Vector2Test.cpp)
 target_link_libraries(Vector2Test gtest_main)
 add_test(NAME Vector2Test COMMAND example)
+
+# Now simply link against gtest or gtest_main as needed. Eg
+add_executable(Vector3Test Vector3Test.cpp)
+target_link_libraries(Vector3Test gtest_main)
+add_test(NAME Vector3Test COMMAND example)
