@@ -19,7 +19,7 @@ template<typename T>
 class Vector3 {
 public:
 	//constructors/destructor
-	Vector3(){};
+	Vector3() :x(0), y(0), z(0){};
 	Vector3(T x, T y, T z) :x(x), y(y), z(z) {};
 	Vector3(const Vector3& v) : x(v.x), y(v.y), z(v.z){};
 	virtual ~Vector3(){};
@@ -51,14 +51,14 @@ public:
 	T magnitude() const;
 	T magnitudeSquared() const;
 	Vector3 normalized() const;
-	float angle(const Vector3& v) const;
+	float angle(const Vector3& v, const Vector3& normal) const;
 	Vector3 projection(Vector3& w) const;
 	Vector3 projectionOntoNormalized(Vector3& wNormalized) const;
 	Vector3 perpendicular(Vector3& w) const;
 	Vector3 perpendicularOntoNormalized(Vector3& wNormalized) const;
 	static void gramSchmidtOrthogonalization(Vector3& a, Vector3& b, Vector3& c);
 	static bool isRightHanded(Vector3& a, Vector3& b, Vector3& c);
-	static bool isBasis(Vector3& a, Vector3& b, Vector3& c);
+	static bool isBasis(const Vector3& a, const Vector3& b, const Vector3& c);
 
 	//point operations
 	T distance(const Vector3& p) const;
@@ -216,12 +216,13 @@ Vector3<T> Vector3<T>::normalized() const{
 }
 
 template<typename T>
-float Vector3<T>::angle(const Vector3<T>& v) const{
-	Vector3<T> thisNormalized = this->normalized();
-	Vector3<T> vNormalized = v->normalized();
-	T crossMagnitude = thisNormalized.cross(vNormalized).magnitude();
-	T dot = thisNormalized->dot(vNormalized);
-	return arctan(crossMagnitude/dot);
+float Vector3<T>::angle(const Vector3<T>& v, const Vector3<T>& normal) const{
+	
+	
+	Vector3<T> cross = this->cross(v);
+	int sign = cross.dot(normal) < 0 ? -1 : 1;
+	T dot = this->dot(v);
+	return atan2(sign*cross.magnitude(),dot);
 }
 
 template<typename T>
@@ -258,7 +259,7 @@ bool Vector3<T>::isRightHanded(Vector3& a, Vector3& b, Vector3& c){
 }
 
 template<typename T>
-bool Vector3<T>::isBasis(Vector3& a, Vector3& b, Vector3& c){
+bool Vector3<T>::isBasis(const Vector3& a, const Vector3& b, const Vector3& c){
 	Vector3<T> zero(0,0,0);
 
 	return a.cross(b) != zero && a.cross(c) != zero && b.cross(c) != zero;
