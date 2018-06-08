@@ -53,10 +53,6 @@ public:
 	Vector3 normalized() const;
 	float angle(const Vector3& v, const Vector3& normal) const;
 	Vector3 projection(Vector3& w) const;
-	Vector3 projectionOntoNormalized(Vector3& wNormalized) const;
-	Vector3 perpendicular(Vector3& w) const;
-	Vector3 perpendicularOntoNormalized(Vector3& wNormalized) const;
-	static void gramSchmidtOrthogonalization(Vector3& a, Vector3& b, Vector3& c);
 	static bool isRightHanded(Vector3& a, Vector3& b, Vector3& c);
 	static bool isBasis(const Vector3& a, const Vector3& b, const Vector3& c);
 
@@ -228,29 +224,6 @@ float Vector3<T>::angle(const Vector3<T>& v, const Vector3<T>& normal) const{
 template<typename T>
 Vector3<T> Vector3<T>::projection(Vector3& w) const{
 	return this->dot(w)/w.magnitudeSquared()*w;
-}
-
-template<typename T>
-Vector3<T> Vector3<T>::projectionOntoNormalized(Vector3& wNormalized) const{
-	return this->dot(wNormalized)*wNormalized;
-}
-
-
-template<typename T>
-Vector3<T> Vector3<T>::perpendicular(Vector3& w) const{
-	return this->operator -(this->projection(w));
-}
-
-template<typename T>
-Vector3<T> Vector3<T>::perpendicularOntoNormalized(Vector3& wNormalized) const{
-	return this->operator-(this->projectionOntoNormalized(wNormalized));
-}
-
-template<typename T>
-void Vector3<T>::gramSchmidtOrthogonalization(Vector3& a, Vector3& b, Vector3& c){
-	a = a.normalized();
-	b = b.perpendicularOntoNormalized(a).normalized();
-	c = c.perpendicularOntoNormalized(b).normalized();
 }
 
 template<typename T>
