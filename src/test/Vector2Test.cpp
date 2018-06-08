@@ -113,7 +113,7 @@ TEST(Vector2, Angle){
   Vector2<float> v(1,0);
   Vector2<float> w(1,1);
 
-  EXPECT_FLOAT_EQ(0.785398, v.angle(w));
+  EXPECT_FLOAT_EQ(45.0/180.0*M_PI, v.angle(w));
 }
 
 TEST(Vector2, IsBasis){
