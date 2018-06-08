@@ -53,7 +53,7 @@ public:
 	Vector3 normalized() const;
 	float angle(const Vector3& v, const Vector3& normal) const;
 	Vector3 projection(Vector3& w) const;
-	static bool isRightHanded(Vector3& a, Vector3& b, Vector3& c);
+	static bool isRightHanded(const Vector3& a,const Vector3& b, const Vector3& c);
 	static bool isBasis(const Vector3& a, const Vector3& b, const Vector3& c);
 
 	//point operations
@@ -227,7 +227,7 @@ Vector3<T> Vector3<T>::projection(Vector3& w) const{
 }
 
 template<typename T>
-bool Vector3<T>::isRightHanded(Vector3& a, Vector3& b, Vector3& c){
+bool Vector3<T>::isRightHanded(const Vector3& a, const Vector3& b, const Vector3& c){
 	return a.dot(b.cross(c)) > 0;
 }
 

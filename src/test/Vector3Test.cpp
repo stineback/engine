@@ -121,6 +121,24 @@ TEST(Vector3, Angle){
   EXPECT_FLOAT_EQ(M_PI, u.angle(v, normal));
 }
 
+TEST(Vector3, Projection){
+  Vector3<float> zero;
+  Vector3<float> v(-2,5,10);
+  Vector3<float> w(1,-2,4);
+
+  EXPECT_EQ(zero, zero.projection(v));
+  EXPECT_EQ(w*28.0/21.0, v.projection(w));
+}
+
+TEST(Vector3, IsRightHanded){
+  const Vector3<float> v(1,0,0);
+  const Vector3<float> w(0,1,0);
+  const Vector3<float> u(0,0,1);
+
+  EXPECT_TRUE(Vector3<float>::isRightHanded(v, w, u));
+  EXPECT_FALSE(Vector3<float>::isRightHanded(v, -w, u));
+}
+
 TEST(Vector3, IsBasis){
   const Vector3<float> v(1,0,0);
   const Vector3<float> w(1,1,1);
