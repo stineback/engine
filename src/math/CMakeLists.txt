@@ -1,0 +1,1 @@
+add_library(math dummy.cpp PolarCoordinates.h SphericalCoordinates.h Vector2.h Vector3.h)

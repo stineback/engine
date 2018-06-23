@@ -1,1 +1,0 @@
-add_library(math PolarCoordinates.cpp SphericalCoordinates.cpp Vector2.h Vector3.h)

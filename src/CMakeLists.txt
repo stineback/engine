@@ -4,8 +4,8 @@ project(engine VERSION 0.1.0)
 include(CTest)
 enable_testing()
 
-include_directories ("${PROJECT_SOURCE_DIR}/library")
-add_subdirectory (library)
+include_directories ("${PROJECT_SOURCE_DIR}/math")
+add_subdirectory (math)
 
 include_directories ("${PROJECT_SOURCE_DIR}/rendering")
 #set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
