@@ -35,7 +35,7 @@ public:
 	void setY(T y);
 
 	//operator overloading
-	Vector2& operator=(const Vector2& v) const;
+	Vector2& operator=(const Vector2& v);
 	Vector2 operator+(const Vector2& v) const;
 	Vector2 operator-(const Vector2& v) const;
 	Vector2 operator-() const;
@@ -104,7 +104,7 @@ inline void Vector2<T>::setY(T y) {
 
 /**********operator overloading**********/
 template<typename T>
-Vector2<T>& Vector2<T>::operator=(const Vector2& v) const{
+Vector2<T>& Vector2<T>::operator=(const Vector2& v){
 
 	//if same object
 	if(this == &v) return *this;

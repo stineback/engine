@@ -36,7 +36,7 @@ public:
 	void setZ(T z);
 
 	//operator overloading
-	Vector3& operator=(const Vector3& v) const;
+	Vector3& operator=(const Vector3& v);
 	Vector3 operator+(const Vector3& v) const;
 	Vector3 operator-(const Vector3& v) const;
 	Vector3 operator-() const;	
@@ -122,7 +122,7 @@ inline void Vector3<T>::setZ(T z) {
 
 /**********operator overloading**********/
 template<typename T>
-Vector3<T>& Vector3<T>::operator=(const Vector3& v) const{
+Vector3<T>& Vector3<T>::operator=(const Vector3& v){
 
 	//if same object
 	if(this == &v) return *this;
