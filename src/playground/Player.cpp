@@ -1,17 +1,17 @@
 #include "Player.h"
 
-void Player::setPosition(const Vector2<int>& p){
+void Player::setPosition(const Vector2<float>& p){
     this->position = p;
 }
 
-void Player::setVelocity(const Vector2<int>& v){
+void Player::setVelocity(const Vector2<float>& v){
     this->velocity = v;
 }
 
-Vector2<int> Player::getPosition() const{
+Vector2<float> Player::getPosition() const{
     return this->position;
 }
 
-Vector2<int> Player::getVelocity() const{
+Vector2<float> Player::getVelocity() const{
     return this->velocity;
 }

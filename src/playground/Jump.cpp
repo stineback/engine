@@ -6,8 +6,8 @@
 
 #include "Player.h"
 
-const Vector2<int> GRAVITY(0,-1);
-const Vector2<int> START_VELOCITY(2 ,10);
+const Vector2<float> GRAVITY(0,-1);
+const Vector2<float> START_VELOCITY(2 ,10);
 Player mario;
 
 void update(double dt){

@@ -7,16 +7,16 @@ class Player
     public:
         Player() : position(Vector2<int>(0,0)), velocity(Vector2<int>(0,0)){};
 
-        void setPosition(const Vector2<int>&);
-        void setVelocity(const Vector2<int>&);
-
-        Vector2<int> getPosition() const;
-        Vector2<int> getVelocity() const;
+        void setPosition(const Vector2<float>&);
+        void setVelocity(const Vector2<float>&);
+        
+        Vector2<float> getPosition() const;
+        Vector2<float> getVelocity() const;
 
     private:
-        Vector2<int> position;
-        Vector2<int> velocity;
 
+        Vector2<float> position;
+        Vector2<float> velocity;
 };
 
 #endif /* PLAYER_H_ */
