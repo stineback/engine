@@ -41,9 +41,6 @@ void draw(){
 
 bool canBackstab(){
     Vector2<float> direction = hitman.getPosition() - enemy.getPosition();
-    std::cout << direction << std::endl;
-    std::cout << enemy.getFrontDirection().normalized() << std::endl;
-    std::cout << enemy.getFrontDirection().normalized().dot(direction.normalized()) << std::endl;
     return enemy.getFrontDirection().normalized().dot(direction.normalized()) < -0.5;
 }
 
