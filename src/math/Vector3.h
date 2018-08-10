@@ -12,8 +12,6 @@
 
 #include "CartisanCoordinates3.h"
 
-using namespace std;
-
 template<typename T>
 class Vector3 : public CartisanCoordinates3<T> {
 public:

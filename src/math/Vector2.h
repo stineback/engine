@@ -13,8 +13,6 @@
 
 #include "CartisanCoordinates2.h"
 
-using namespace std;
-
 template<typename T>
 class Vector2 : public CartisanCoordinates2<T> {
 public:

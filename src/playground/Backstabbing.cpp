@@ -15,7 +15,7 @@ void draw(){
     std::ostringstream oss;
     for(int i=-roomSize; i<roomSize+2; ++i)
         oss <<"-";
-    oss <<endl;
+    oss << std::endl;
 
     for(int i=roomSize; i>=-roomSize; --i){
         oss << "|";
@@ -34,7 +34,7 @@ void draw(){
 
     for(int i=-roomSize; i<roomSize+2; ++i)
         oss <<"-";
-    oss <<endl;
+    oss << std::endl;
 
     std::cout << oss.str();
 }
