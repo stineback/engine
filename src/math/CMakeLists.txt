@@ -1,1 +1,2 @@
-add_library(math dummy.cpp PolarCoordinates.h SphericalCoordinates.h CartisanCoordinates2.h Point2.h Vector2.h Vector3.h)
+add_library(math INTERFACE)
+target_include_directories(math INTERFACE math/)
