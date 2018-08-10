@@ -1,15 +1,43 @@
 #include "gtest/gtest.h"
 #include "Vector3.h"
+#include "Point3.h"
+
+TEST(Vector3, Assignment) {
+  Vector3<float> v;
+  Vector3<float> w(-2,5,10);
+
+  EXPECT_TRUE(v!=w);
+
+  v = w;
+
+  EXPECT_TRUE(v==w);
+}
+
+
+TEST(Vector3, Equality) {
+  Vector3<float> zero;
+  Vector3<float> v(-2,5,10);
+  Point3<float> p(-2,5,10);
+
+  EXPECT_TRUE(zero==zero);
+  EXPECT_FALSE(zero!=zero);
+  EXPECT_TRUE(zero!=v);
+  EXPECT_FALSE(zero==v);
+  EXPECT_TRUE(v==v);
+  EXPECT_FALSE(v!=v);
+  EXPECT_FALSE(v==p);
+  EXPECT_TRUE(v!=p);
+}
 
 TEST(Vector3, Add) {
   Vector3<float> zero;
   Vector3<float> v(-2,5,10);
   Vector3<float> w(1,-2,4);
 
-  EXPECT_EQ (zero, zero+zero);
-  EXPECT_EQ (v, v+zero);
-  EXPECT_EQ (w+v, v+w);
-  EXPECT_EQ (Vector3<float>(-1,3,14), v+w);
+  EXPECT_EQ(zero, zero+zero);
+  EXPECT_EQ(v, v+zero);
+  EXPECT_EQ(w+v, v+w);
+  EXPECT_EQ(Vector3<float>(-1,3,14), v+w);
 }
 
 TEST(Vector3, Subtract) {
@@ -17,9 +45,9 @@ TEST(Vector3, Subtract) {
   Vector3<float> v(-2,5,10);
   Vector3<float> w(1,-2,4);
 
-  EXPECT_EQ (zero, zero-zero);
-  EXPECT_EQ (v, v-zero);
-  EXPECT_EQ (Vector3<float>(-3,7,6), v-w);
+  EXPECT_EQ(zero, zero-zero);
+  EXPECT_EQ(v, v-zero);
+  EXPECT_EQ(Vector3<float>(-3,7,6), v-w);
 }
 
 TEST(Vector3, UnaryMinus) {
@@ -34,32 +62,20 @@ TEST(Vector3, Multiply) {
   Vector3<float> zero;
   Vector3<float> v(-2,5,10);
 
-  EXPECT_EQ (zero, zero*2);
-  EXPECT_EQ (zero, 2*zero);
-  EXPECT_EQ (zero, v*0);
-  EXPECT_EQ (zero, 0*v);
-  EXPECT_EQ (2*v, v*2);
-  EXPECT_EQ (Vector3<float>(-4,10,20), v*2);
+  EXPECT_EQ(zero, zero*2);
+  EXPECT_EQ(zero, 2*zero);
+  EXPECT_EQ(zero, v*0);
+  EXPECT_EQ(zero, 0*v);
+  EXPECT_EQ(2*v, v*2);
+  EXPECT_EQ(Vector3<float>(-4,10,20), v*2);
 }
 
 TEST(Vector3, Divison) {
   Vector3<float> zero;
   Vector3<float> v(-2,5,10);
 
-  EXPECT_EQ (zero, zero/2);
-  EXPECT_EQ (Vector3<float>(-1,2.5,5), v/2);
-}
-
-TEST(Vector3, Equality) {
-  Vector3<float> zero;
-  Vector3<float> v(-2,5,10);
-
-  EXPECT_TRUE (zero==zero);
-  EXPECT_FALSE (zero!=zero);
-  EXPECT_TRUE(zero!=v);
-  EXPECT_FALSE(zero==v);
-  EXPECT_TRUE(v==v);
-  EXPECT_FALSE(v!=v);
+  EXPECT_EQ(zero, zero/2);
+  EXPECT_EQ(Vector3<float>(-1,2.5,5), v/2);
 }
 
 TEST(Vector3, Dot){
@@ -146,24 +162,6 @@ TEST(Vector3, IsBasis){
 
   EXPECT_TRUE(Vector3<float>::isBasis(v, w, u));
   EXPECT_FALSE(Vector3<float>::isBasis(v, -v, w));
-}
-
-TEST(Vector3, Distance){
-  Vector3<float> zero;
-  Vector3<float> p(-3,4,-2);
-
-  EXPECT_EQ(0, p.distance(p));
-  EXPECT_FLOAT_EQ(sqrt(29), zero.distance(p));
-  EXPECT_EQ(p.distance(zero), zero.distance(p));
-}
-
-TEST(Vector3, DistanceSquared){
-  Vector3<float> zero;
-  Vector3<float> p(-3,4,-2);
-
-  EXPECT_EQ(0, p.distanceSquared(p));
-  EXPECT_EQ(29, zero.distanceSquared(p));
-  EXPECT_EQ(p.distanceSquared(zero), zero.distanceSquared(p));
 }
 
 int main(int argc, char **argv) {

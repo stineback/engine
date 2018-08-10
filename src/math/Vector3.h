@@ -8,32 +8,20 @@
 #ifndef VECTOR3_H_
 #define VECTOR3_H_
 
-#include <iostream>
-#include <sstream>
-#include <string>
 #include <math.h>
+
+#include "CartisanCoordinates3.h"
 
 using namespace std;
 
 template<typename T>
-class Vector3 {
+class Vector3 : public CartisanCoordinates3<T> {
 public:
 	//constructors/destructor
-	Vector3() :x(0), y(0), z(0){};
-	Vector3(T x, T y, T z) :x(x), y(y), z(z) {};
-	Vector3(const Vector3& v) : x(v.x), y(v.y), z(v.z){};
+	Vector3() {};
+	Vector3(T x, T y, T z) : CartisanCoordinates3<T>(x, y, z)  {};
+	Vector3(const Vector3& v) : CartisanCoordinates3<T>(v.x, v.y, v.z){};
 	virtual ~Vector3(){};
-
-	//getters
-	T getX() const;
-	T getY() const;
-	T getZ() const;
-
-	//setters
-	void set(T x, T y, T z);
-	void setX(T x);
-	void setY(T y);
-	void setZ(T z);
 
 	//operator overloading
 	Vector3& operator=(const Vector3& v);
@@ -42,8 +30,6 @@ public:
 	Vector3 operator-() const;	
 	Vector3 operator*(const float& s) const;
 	Vector3 operator/(const float& s) const;
-	bool operator==(const Vector3& v) const;
-	bool operator!=(const Vector3& v) const;
 
 	//vector operations
 	T dot(const Vector3& v) const;
@@ -55,103 +41,41 @@ public:
 	Vector3 projection(Vector3& w) const;
 	static bool isRightHanded(const Vector3& a,const Vector3& b, const Vector3& c);
 	static bool isBasis(const Vector3& a, const Vector3& b, const Vector3& c);
-
-	//point operations
-	T distance(const Vector3& p) const;
-	T distanceSquared(const Vector3& p) const;
-
-	//utilities
-	string toString();
-
-
-private:
-	T x;
-	T y;
-	T z;
 };
 
 //operator overloading
 template<typename T>
 Vector3<T> operator*(const float& s, const Vector3<T>& v);
 
-template<typename T>
-std::ostream& operator<< (std::ostream& s, const Vector3<T>& v);
-
-
-/**********getters**********/
-template<typename T>
-inline T Vector3<T>::getX() const {
-	return x;
-}
-
-
-template<typename T>
-inline T Vector3<T>::getY() const {
-	return y;
-}
-
-
-template<typename T>
-inline T Vector3<T>::getZ() const {
-	return z;
-}
-
-
-/**********setters**********/
-template<typename T>
-inline void Vector3<T>::set(T x, T y, T z) {
-	this->x = x;
-	this->y = y;
-	this->z = z;
-}
-
-template<typename T>
-inline void Vector3<T>::setX(T x) {
-	this->x = x;
-}
-
-template<typename T>
-inline void Vector3<T>::setY(T y) {
-	this->y = y;
-}
-
-template<typename T>
-inline void Vector3<T>::setZ(T z) {
-	this->z = z;
-}
-
 /**********operator overloading**********/
+
+//Base class assignment operator is always hidden by the copy assignment operator of the derived class,
+//so needs to explict implement move assignment operator
 template<typename T>
 Vector3<T>& Vector3<T>::operator=(const Vector3& v){
-
-	//if same object
-	if(this == &v) return *this;
-
-	x = v.x;
-	y = v.y;
-	z = v.z;
+	CartisanCoordinates3<T>::operator=(v);
 	return *this;
 }
 
 template<typename T>
 Vector3<T> Vector3<T>::operator+(const Vector3& v) const{
-	return Vector3(x+v.x,y+v.y, z+v.z);
+	return Vector3(this->x+v.x,this->y+v.y, this->z+v.z);
 }
 
 template<typename T>
 Vector3<T> Vector3<T>::operator-(const Vector3& v) const{
-	return Vector3(x-v.x,y-v.y,z-v.z);
+	return Vector3(this->x-v.x,this->y-v.y,this->z-v.z);
 }
 
 template<typename T>
 Vector3<T> Vector3<T>::operator-() const{
-	return Vector3(-x,-y,-z);
+	return Vector3(-this->x,-this->y,-this->z);
 }
 
 
 template<typename T>
 Vector3<T> Vector3<T>::operator*(const float& s) const{
-	return Vector3<T>(x*s,y*s,z*s);
+	return Vector3<T>(this->x*s,this->y*s,this->z*s);
 }
 
 template<typename T>
@@ -161,33 +85,17 @@ Vector3<T> operator*(const float& s, const Vector3<T>& v){
 
 template<typename T>
 Vector3<T> Vector3<T>::operator/(const float& s) const{
-	return Vector3(x/s,y/s,z/s);
+	return Vector3(this->x/s,this->y/s,this->z/s);
 }
-
-template<typename T>
-bool Vector3<T>::operator==(const Vector3& v) const{
-	return (x==v.x) && (y==v.y) && (z==v.z);
-}
-
-template<typename T>
-bool Vector3<T>::operator!=(const Vector3& v) const{
-	return (x!=v.x) || (y!=v.y) || (z!=v.z);
-}
-
-template<typename T>
-std::ostream& operator<< (std::ostream& s, const Vector3<T>& v) {
-	return s<<"("<<v.getX()<<","<<v.getY()<<","<<v.getZ()<<")";
-}
-
 /**********vector operations**********/
 template<typename T>
 T Vector3<T>::dot(const Vector3& v) const{
-	return x*v.x + y*v.y + z*v.z;
+	return this->x*v.x + this->y*v.y + this->z*v.z;
 }
 
 template<typename T>
 Vector3<T> Vector3<T>::cross(const Vector3& v) const{
-	return Vector3<T>(y*v.z-v.y*z, z*v.x-v.z*x, x*v.y-v.x*y);
+	return Vector3<T>(this->y*v.z-v.y*this->z, this->z*v.x-v.z*this->x, this->x*v.y-v.x*this->y);
 }
 
 template<typename T>
@@ -197,7 +105,7 @@ T Vector3<T>::magnitude() const{
 
 template<typename T>
 T Vector3<T>::magnitudeSquared() const{
-	return x*x + y*y + z*z;
+	return this->x*this->x + this->y*this->y + this->z*this->z;
 }
 
 template<typename T>
@@ -205,7 +113,7 @@ Vector3<T> Vector3<T>::normalized() const{
 	float magnitude = this->magnitude();
 	Vector3 result;
 	if(magnitude != 0){
-		result.set(x/magnitude, y/magnitude, z/magnitude);
+		result.set(this->x/magnitude, this->y/magnitude, this->z/magnitude);
 	}
 
 	return result;
@@ -213,8 +121,6 @@ Vector3<T> Vector3<T>::normalized() const{
 
 template<typename T>
 float Vector3<T>::angle(const Vector3<T>& v, const Vector3<T>& normal) const{
-	
-	
 	Vector3<T> cross = this->cross(v);
 	int sign = cross.dot(normal) < 0 ? -1 : 1;
 	T dot = this->dot(v);
@@ -237,30 +143,5 @@ bool Vector3<T>::isBasis(const Vector3& a, const Vector3& b, const Vector3& c){
 
 	return a.cross(b) != zero && a.cross(c) != zero && b.cross(c) != zero;
 }
-
-/**********point operations**********/
-template<typename T>
-T Vector3<T>::distance(const Vector3<T>& p) const{
-	return sqrt(this->distanceSquared(p));
-}
-
-template<typename T>
-T Vector3<T>::distanceSquared(const Vector3<T>& p) const{
-	T xDist = x-p.x;
-	T yDist = y-p.y;
-	T zDist = z-p.z;
-	return xDist*xDist + yDist*yDist + zDist*zDist;
-}
-
-
-/**********utilities**********/
-template<typename T>
-string Vector3<T>::toString()
-{
-	ostringstream oss;
-	oss << *this;
-    return oss.str();
-}
-
 
 #endif /* VECTOR3_H_ */

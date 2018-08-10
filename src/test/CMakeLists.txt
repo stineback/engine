@@ -31,17 +31,19 @@ if (CMAKE_VERSION VERSION_LESS 2.8.11)
 endif()
 
 
-# Now simply link against gtest or gtest_main as needed. Eg
+# Now simply link against gtest or gtest_main as needed
 add_executable(Point2Test Point2Test.cpp)
 target_link_libraries(Point2Test gtest_main)
 add_test(NAME Point2Test COMMAND Point2Test)
 
-# Now simply link against gtest or gtest_main as needed. Eg
+add_executable(Point3Test Point3Test.cpp)
+target_link_libraries(Point3Test gtest_main)
+add_test(NAME Point3Test COMMAND Point3Test)
+
 add_executable(Vector2Test Vector2Test.cpp)
 target_link_libraries(Vector2Test gtest_main)
 add_test(NAME Vector2Test COMMAND Vector2Test)
 
-# Now simply link against gtest or gtest_main as needed. Eg
 add_executable(Vector3Test Vector3Test.cpp)
 target_link_libraries(Vector3Test gtest_main)
 add_test(NAME Vector3Test COMMAND Vector3Test)
