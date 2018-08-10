@@ -53,42 +53,42 @@ void canBackstabMsg(){
 }
 
 int main(){
-    enemy.setPosition(Vector2<float>(0,0));
+    enemy.setPosition(Point2<float>(0,0));
     enemy.setFrontDirection(Vector2<float>(0,1));
 
-    hitman.setPosition(Vector2<float>(0,roomSize));
+    hitman.setPosition(Point2<float>(0,roomSize));
     draw();
     canBackstabMsg();
 
-    hitman.setPosition(Vector2<float>(roomSize,roomSize));
+    hitman.setPosition(Point2<float>(roomSize,roomSize));
     draw();
     canBackstabMsg();
 
-    hitman.setPosition(Vector2<float>(roomSize,0));
+    hitman.setPosition(Point2<float>(roomSize,0));
     draw();
     canBackstabMsg();
 
-    hitman.setPosition(Vector2<float>(roomSize,-roomSize));
+    hitman.setPosition(Point2<float>(roomSize,-roomSize));
     draw();
     canBackstabMsg();
 
-    hitman.setPosition(Vector2<float>(0,-roomSize));
+    hitman.setPosition(Point2<float>(0,-roomSize));
     draw();
     canBackstabMsg();
 
-    hitman.setPosition(Vector2<float>(-roomSize,-roomSize));
+    hitman.setPosition(Point2<float>(-roomSize,-roomSize));
     draw();
     canBackstabMsg();
 
-    hitman.setPosition(Vector2<float>(-roomSize,0));
+    hitman.setPosition(Point2<float>(-roomSize,0));
     draw();
     canBackstabMsg();
 
-    hitman.setPosition(Vector2<float>(-roomSize,roomSize));
+    hitman.setPosition(Point2<float>(-roomSize,roomSize));
     draw();
     canBackstabMsg();
 
-    hitman.setPosition(Vector2<float>(0,0));
+    hitman.setPosition(Point2<float>(0,0));
     draw();
     canBackstabMsg();
 

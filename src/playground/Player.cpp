@@ -2,7 +2,7 @@
 
 const Vector2<float> Player::DEFAULT_FRONT_DIRECTION(1,0);
 
-void Player::setPosition(const Vector2<float>& p){
+void Player::setPosition(const Point2<float>& p){
     this->position = p;
 }
 
@@ -14,7 +14,7 @@ void Player::setFrontDirection(const Vector2<float>& f){
     this->frontDirection = f != Vector2<float>() ? f : DEFAULT_FRONT_DIRECTION;
 }
 
-Vector2<float> Player::getPosition() const{
+Point2<float> Player::getPosition() const{
     return this->position;
 }
 

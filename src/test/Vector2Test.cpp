@@ -1,15 +1,42 @@
 #include "gtest/gtest.h"
 #include "Vector2.h"
+#include "Point2.h"
+
+TEST(Vector2, Assignment) {
+  Vector2<float> v;
+  Vector2<float> w(-2,5);
+
+  EXPECT_TRUE(v!=w);
+
+  v = w;
+
+  EXPECT_TRUE(v==w);
+}
+
+TEST(Vector2, Equality) {
+  Vector2<float> zero;
+  Vector2<float> v(-2,5);
+  Point2<float> p(-2,5);
+
+  EXPECT_TRUE(zero==zero);
+  EXPECT_FALSE(zero!=zero);
+  EXPECT_TRUE(zero!=v);
+  EXPECT_FALSE(zero==v);
+  EXPECT_TRUE(v==v);
+  EXPECT_FALSE(v!=v);
+  EXPECT_FALSE(v==p);
+  EXPECT_TRUE(v!=p);
+}
 
 TEST(Vector2, Add) {
   Vector2<float> zero;
   Vector2<float> v(-2,5);
   Vector2<float> w(1,-2);
 
-  EXPECT_EQ (zero, zero+zero);
-  EXPECT_EQ (v, v+zero);
-  EXPECT_EQ (w+v, v+w);
-  EXPECT_EQ (Vector2<float>(-1,3), v+w);
+  EXPECT_EQ(zero, zero+zero);
+  EXPECT_EQ(v, v+zero);
+  EXPECT_EQ(w+v, v+w);
+  EXPECT_EQ(Vector2<float>(-1,3), v+w);
 }
 
 TEST(Vector2, Subtract) {
@@ -17,49 +44,37 @@ TEST(Vector2, Subtract) {
   Vector2<float> v(-2,5);
   Vector2<float> w(1,-2);
 
-  EXPECT_EQ (zero, zero-zero);
-  EXPECT_EQ (v, v-zero);
-  EXPECT_EQ (Vector2<float>(-3,7), v-w);
+  EXPECT_EQ(zero, zero-zero);
+  EXPECT_EQ(v, v-zero);
+  EXPECT_EQ(Vector2<float>(-3,7), v-w);
 }
 
 TEST(Vector2, UnaryMinus) {
   Vector2<float> zero;
   Vector2<float> v(-2,5);
 
-  EXPECT_EQ (zero, -zero);
-  EXPECT_EQ (Vector2<float>(2, -5), -v);
+  EXPECT_EQ(zero, -zero);
+  EXPECT_EQ(Vector2<float>(2, -5), -v);
 }
 
 TEST(Vector2, Multiply) {
   Vector2<float> zero;
   Vector2<float> v(-2,5);
 
-  EXPECT_EQ (zero, zero*2);
-  EXPECT_EQ (zero, 2*zero);
-  EXPECT_EQ (zero, v*0);
-  EXPECT_EQ (zero, 0*v);
-  EXPECT_EQ (2*v, v*2);
-  EXPECT_EQ (Vector2<float>(-4,10), v*2);
+  EXPECT_EQ(zero, zero*2);
+  EXPECT_EQ(zero, 2*zero);
+  EXPECT_EQ(zero, v*0);
+  EXPECT_EQ(zero, 0*v);
+  EXPECT_EQ(2*v, v*2);
+  EXPECT_EQ(Vector2<float>(-4,10), v*2);
 }
 
 TEST(Vector2, Divison) {
   Vector2<float> zero;
   Vector2<float> v(-2,5);
 
-  EXPECT_EQ (zero, zero/2);
-  EXPECT_EQ (Vector2<float>(-1,2.5), v/2);
-}
-
-TEST(Vector2, Equality) {
-  Vector2<float> zero;
-  Vector2<float> v(-2,5);
-
-  EXPECT_TRUE (zero==zero);
-  EXPECT_FALSE (zero!=zero);
-  EXPECT_TRUE(zero!=v);
-  EXPECT_FALSE(zero==v);
-  EXPECT_TRUE(v==v);
-  EXPECT_FALSE(v!=v);
+  EXPECT_EQ(zero, zero/2);
+  EXPECT_EQ(Vector2<float>(-1,2.5), v/2);
 }
 
 TEST(Vector2, Dot){
@@ -124,25 +139,3 @@ TEST(Vector2, IsBasis){
   EXPECT_FALSE(Vector2<float>::isBasis(v, -v));
 }
 
-TEST(Vector2, Distance){
-  Vector2<float> zero;
-  Vector2<float> p(-3,4);
-
-  EXPECT_EQ(0, p.distance(p));
-  EXPECT_EQ(5, zero.distance(p));
-  EXPECT_EQ(p.distance(zero), zero.distance(p));
-}
-
-TEST(Vector2, DistanceSquared){
-  Vector2<float> zero;
-  Vector2<float> p(-3,4);
-
-  EXPECT_EQ(0, p.distanceSquared(p));
-  EXPECT_EQ(25, zero.distanceSquared(p));
-  EXPECT_EQ(p.distanceSquared(zero), zero.distanceSquared(p));
-}
-
-int main(int argc, char **argv) {
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
-}

@@ -30,6 +30,12 @@ if (CMAKE_VERSION VERSION_LESS 2.8.11)
   include_directories("${gtest_SOURCE_DIR}/include")
 endif()
 
+
+# Now simply link against gtest or gtest_main as needed. Eg
+add_executable(Point2Test Point2Test.cpp)
+target_link_libraries(Point2Test gtest_main)
+add_test(NAME Point2Test COMMAND Point2Test)
+
 # Now simply link against gtest or gtest_main as needed. Eg
 add_executable(Vector2Test Vector2Test.cpp)
 target_link_libraries(Vector2Test gtest_main)
