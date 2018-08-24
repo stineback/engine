@@ -51,3 +51,7 @@ add_test(NAME Vector3Test COMMAND Vector3Test)
 add_executable(Line2Test Line2Test.cpp)
 target_link_libraries(Line2Test gtest_main)
 add_test(NAME Line2Test COMMAND Line2Test)
+
+add_executable(Line3Test Line3Test.cpp)
+target_link_libraries(Line3Test gtest_main)
+add_test(NAME Line3Test COMMAND Line3Test)
