@@ -131,6 +131,15 @@ TEST(Vector2, Angle){
   EXPECT_FLOAT_EQ(45.0/180.0*M_PI, v.angle(w));
 }
 
+TEST(Vector2, Projection){
+  Vector2<float> zero;
+  Vector2<float> v(-2,5);
+  Vector2<float> w(1,-2);
+
+  EXPECT_EQ(zero, zero.projection(v));
+  EXPECT_EQ(w*(-12.0/5.0), v.projection(w));
+}
+
 TEST(Vector2, IsBasis){
   const Vector2<float> v(1,0);
   const Vector2<float> w(1,1);

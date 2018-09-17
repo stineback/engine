@@ -37,7 +37,9 @@ public:
 	T magnitudeSquared() const;
 	Vector2 normalized() const;
 	T angle(const Vector2& v) const;
+	Vector2 projection(const Vector2& v) const;
 	static bool isBasis(const Vector2& a, const Vector2& b);
+
 };
 
 //operator overloading
@@ -120,6 +122,11 @@ Vector2<T> Vector2<T>::normalized() const{
 template<typename T>
 T Vector2<T>::angle(const Vector2& v) const{
 	return asin(this->normalized().perpDot(v.normalized()));
+}
+
+template<typename T>
+Vector2<T> Vector2<T>::projection(const Vector2& v) const{
+	return this->dot(v)/v.magnitudeSquared()*v;
 }
 
 template<typename T>
