@@ -55,3 +55,7 @@ add_test(NAME Line2Test COMMAND Line2Test)
 add_executable(Line3Test Line3Test.cpp)
 target_link_libraries(Line3Test gtest_main)
 add_test(NAME Line3Test COMMAND Line3Test)
+
+add_executable(PlaneTest PlaneTest.cpp)
+target_link_libraries(PlaneTest gtest_main)
+add_test(NAME PlaneTest COMMAND PlaneTest)
