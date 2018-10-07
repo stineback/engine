@@ -29,6 +29,7 @@ public:
 
     //line operations
     Point3<T> pointOnLine(T parameter);
+	static bool isCollinear(const Point3<T>& p0, const Point3<T>& p1, const Point3<T>& p2, const Vector3<T>& threshold = Vector3<T>(0,0,0));
 };
 
 //operator overloading
@@ -37,18 +38,21 @@ std::ostream& operator<< (std::ostream& s, const Line3<T>& v);
 
 /**********getters**********/
 template<typename T>
-inline Vector3<T> Line3<T>::getDirection() const {
+inline Vector3<T> Line3<T>::getDirection() const
+{
 	return direction;
 }
 
 template<typename T>
-inline Point3<T>  Line3<T>::getOrigin() const {
+inline Point3<T>  Line3<T>::getOrigin() const
+{
 	return origin;
 }
 
 /**********operator overloading**********/
 template<typename T>
-Line3<T>& Line3<T>::operator=(const Line3& l){
+Line3<T>& Line3<T>::operator=(const Line3& l)
+{
 	//if same object
 	if(this == &l) return *this;
 
@@ -59,25 +63,36 @@ Line3<T>& Line3<T>::operator=(const Line3& l){
 
 
 template<typename T>
-bool Line3<T>::operator==(const Line3& l) const {
+bool Line3<T>::operator==(const Line3& l) const
+{
     //is it same line if direction and/or origin is different but the parametizied line is the same?
 	return (this->direction==l.direction) && (this->origin==l.origin);
 }
 
 template<typename T>
-bool Line3<T>::operator!=(const Line3& l) const {
+bool Line3<T>::operator!=(const Line3& l) const
+{
 	return (this->direction!=l.direction) || (this->origin!=l.origin);
 }
 
 
 template<typename T>
-std::ostream& operator<< (std::ostream& s, const Line3<T>& l) {
+std::ostream& operator<< (std::ostream& s, const Line3<T>& l)
+{
 	return s<<"direction="<<l.getDirection()<<", origin="<<l.getOrigin();
 }
 
 /**********line operations**********/
 template<typename T>
-Point3<T> Line3<T>::pointOnLine(T parameter){
+Point3<T> Line3<T>::pointOnLine(T parameter)
+{
     return origin + parameter*direction;
+}
+
+template<typename T>
+bool Line3<T>::isCollinear(const Point3<T>& p0, const Point3<T>& p1, const Point3<T>& p2, const Vector3<T>& threshold)
+{
+    Vector3<T> result = (p1-p0).cross(p2-p1);
+	return result == threshold;
 }
 #endif /* LINE3_H_ */
