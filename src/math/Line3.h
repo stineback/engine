@@ -29,7 +29,7 @@ public:
 
     //line operations
     Point3<T> pointOnLine(T parameter);
-	static bool isCollinear(const Point3<T>& p0, const Point3<T>& p1, const Point3<T>& p2, const Vector3<T>& threshold = Vector3<T>(0,0,0));
+	static bool isCollinear(const Point3<T>& p0, const Point3<T>& p1, const Point3<T>& p2, T threshold = 0);
 };
 
 //operator overloading
@@ -90,9 +90,11 @@ Point3<T> Line3<T>::pointOnLine(T parameter)
 }
 
 template<typename T>
-bool Line3<T>::isCollinear(const Point3<T>& p0, const Point3<T>& p1, const Point3<T>& p2, const Vector3<T>& threshold)
+bool Line3<T>::isCollinear(const Point3<T>& p0, const Point3<T>& p1, const Point3<T>& p2, T threshold)
 {
-    Vector3<T> result = (p1-p0).cross(p2-p1);
-	return result == threshold;
+	Vector3<T> crossProduct = (p1 - p0).cross(p2 - p0);
+	return abs(crossProduct.getX()) <= threshold && 
+			abs(crossProduct.getY()) <= threshold && 
+			abs(crossProduct.getZ()) <= threshold;
 }
 #endif /* LINE3_H_ */
