@@ -30,10 +30,15 @@ TEST(Plane, isCoplanar)
   Point3<int> p1(1,-1,0);
   Point3<int> p2(-1,-1,0);
   Point3<int> p3(-1,1,0);
-  Point3<int> p4(0,0,1);
+  Point3<int> p4(1,0,0);
+  Point3<int> p5(1,2,0);
+  Point3<int> p6(0,0,1);
 
   EXPECT_TRUE(Plane<int>::isCoplanar(p0,p1,p2,p3));
-  EXPECT_FALSE(Plane<int>::isCoplanar(p0,p1,p2,p4));
+  EXPECT_TRUE(Plane<int>::isCoplanar(p0,p1,p4,p3));
+  EXPECT_TRUE(Plane<int>::isCoplanar(p0,p1,p2,p4));
+  EXPECT_FALSE(Plane<int>::isCoplanar(p0,p1,p4,p5));
+  EXPECT_FALSE(Plane<int>::isCoplanar(p0,p1,p2,p6));
 }
 
 int main(int argc, char **argv) {

@@ -1,6 +1,7 @@
 #ifndef PLANE_H_
 #define PLANE_H_
 
+#include "Line3.h"
 #include "Point3.h"
 #include "Vector3.h"
 
@@ -82,7 +83,13 @@ std::ostream& operator<< (std::ostream& s, const Plane<T>& p) {
 template<typename T>
 bool Plane<T>::isCoplanar(const Point3<T>& p0, const Point3<T>& p1, const Point3<T>& p2, const Point3<T>& p3, T threshold)
 {
-	T result = (p1-p0).dot((p2-p0).cross(p3-p0));
-	return result == threshold;
+	T tripleScalarproduct = (p1 - p0).dot((p2 - p0).cross(p3 - p0));
+
+	if(abs(tripleScalarproduct) > threshold) return false;
+
+	bool isCollinear1 = Line3<T>::isCollinear(p0, p1, p2, threshold);
+	bool isCollinear2 = Line3<T>::isCollinear(p0, p1, p3, threshold);
+
+	return !isCollinear1 || !isCollinear2;
 }
 #endif /* PLANE_H_ */
