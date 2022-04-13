@@ -7,6 +7,9 @@ enable_testing()
 include_directories ("${PROJECT_SOURCE_DIR}/math")
 add_subdirectory (math)
 
+include_directories ("${PROJECT_SOURCE_DIR}/geometry")
+add_subdirectory (geometry)
+
 include_directories ("${PROJECT_SOURCE_DIR}/rendering")
 #set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 add_subdirectory (rendering)
